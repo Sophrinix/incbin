@@ -1,3 +1,39 @@
+incbin.bat
+======================================
+
+Sometimes you need to embed binary data into a C/C++ program.
+`incbin` is a utility to do just that.
+
+Unlike other solutions, `incbin` is written using only components
+that already ship with the operating system; no third-party tools
+need to be installed for it to work.
+
+What's notable about this script is that it's cross-platform, and
+works equally well on both Windows and UNIX systems. Yep that's
+right - this is a polyglot script that works under both .bat and sh.
+
+Example usage:
+**Windows**: `incbin.bat myfile.bin output.h foo`
+**UNIX**:    `sh incbin.bat myfile.bin output.h foo`
+(where 'foo' is the C symbol name you want the data stored in)
+
+Further usage
+======================================
+
+Here's an example showing how to call `incbin` from a Makefile:
+
+```make
+all : foo.h
+
+SCRIPTSHELL := $(if $(findstring $(OS),Windows_NT),cmd /c,sh)
+
+foo.h : test.png
+	$(SCRIPTSHELL) incbin.bat $< $@ foo
+```
+
+License
+======================================
+
 This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
@@ -22,4 +58,3 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org>
-
